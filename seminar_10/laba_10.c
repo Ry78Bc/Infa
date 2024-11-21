@@ -77,20 +77,25 @@ int main() {
     FILE *f = fopen("Base.dat", "rb+");
     if (f == NULL) {printf("\n No file\n"); return 1;}
 
-    printf("\n read write find del top exit\n\n");
+    printf("\n read write del top exit\n\n");
 
     char com[16];
     stud student;
+    size_t i;
+    size_t num_students;
+    stud* students;
 
     while (1) {
-        scanf("%s", com);
+        scanf("%15s", com);
 
         switch (adler32(com, strlen(com))) {        
             case 69271965 :    // Read
                 fseek(f, 0, SEEK_SET);
-
-                while (fread(&student, sizeof(stud), 1, f))
+                
+                for (i=0; fread(&student, sizeof(stud), 1, f); i++) {
+                    printf("\n %d", i);
                     PrntStud(&student);
+                }
                 printf("\n");
             break;
             case 111673900 :    // Write
@@ -109,10 +114,10 @@ int main() {
             break;
             case 44892500 :    // Top
                 fseek(f, 0, SEEK_END);
-                size_t num_students = ftell(f) / sizeof(stud);
+                num_students = ftell(f) / sizeof(stud);
                 if (num_students < 2) {printf("\n No students\n\n"); break;}
 
-                stud *students = malloc(num_students * sizeof(stud));
+                students = malloc(num_students * sizeof(stud));
                 if (students == NULL) {printf("\n Overflowed\n\n"); break;}
 
                 fseek(f, 0, SEEK_SET);
@@ -123,16 +128,47 @@ int main() {
                 fseek(f, 0, SEEK_SET);
                 fwrite(students, sizeof(stud), num_students, f);
 
-                for (int8_t i=0; i < 10 && i < num_students; i++)
+                for (i=0; i < 10 && i < num_students; i++) {
+                    printf("\n %d", i);
                     PrntStud(&students[i]);
+                }
                 printf("\n");
 
                 free(students);
             break;
-            case 68616610 :    // Find
+            case 40173878 :    // Delete
+                fseek(f, 0, SEEK_END);
+                num_students = ftell(f) / sizeof(stud);
+                if (num_students == 0) {printf("\n No students\n\n"); break;}
+                
+                printf("\n Enter the number: ");
+                scanf("%zu", &i);
+                if (i >= num_students) {printf("\n Student not found\n\n"); break;}
+                fseek(f, i * sizeof(stud), SEEK_SET);
+                fread(&student, sizeof(stud), 1, f);
+                PrntStud(&student);
 
+                printf(" Delete a student? ");
+                scanf("%15s", com);
+                if (adler32(com, strlen(com)) != 44761426) {printf("\n Exit...\n\n"); break;}
+
+                students = malloc(num_students * sizeof(stud));
+                if (students == NULL) {printf("\n Overflowed\n\n"); break;}
+                fseek(f, 0, SEEK_SET);
+                fread(students, sizeof(stud), num_students, f);
+                for (size_t j = i; j < num_students - 1; j++) {
+                   students[j] = students[j+1];
+                }
+                f = freopen("Base.dat", "wb", f);
+                if (f == NULL) {printf("\n Failed write\n"); free(students); return 1;}
+                fwrite(students, sizeof(stud), num_students - 1, f);
+                free(students);
+
+                f = freopen("Base.dat", "rb+", f);
+                if (f == NULL) {printf("\n Failed write\n"); free(students); return 1;}
+                printf("\n");
             break;
-            case 40173878 :    // Delite
+            case 68616610 :    // Find
 
             break;
             case 71696827 :    // Exit
