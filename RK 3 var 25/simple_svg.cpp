@@ -24,41 +24,6 @@ FILE* open_gen_svg(const char* path, uint16_t *wh, uint8_t t, uint8_t g, const c
     }
     return f;
 }
-
-uint16_t gen(uint8_t *last, uint16_t wh, uint16_t *y) {
-
-    uint8_t quarter;
-    do {
-        quarter = rand() % 4;
-    } while (quarter == *last);
-
-    *last = quarter;
-    uint16_t wh_q = (wh / 2);
-
-    switch (quarter) {
-        case 0:
-            *y = rand() % wh_q;
-            return rand() % wh_q;
-        break;
-        case 1:
-            *y = wh_q + rand() % wh_q;
-            return rand() % wh_q;
-        break;
-        case 2:
-            *y = rand() % wh_q;
-            return wh_q + rand() % wh_q;
-        break;
-        case 3:
-            *y = wh_q + rand() % wh_q;
-            return wh_q + rand() % wh_q;
-        break;
-        default:
-            *y = 0;
-            return 0;
-        break;
-    }
-}
-
 void gen_tre(FILE *f, uint8_t t, uint16_t wh, const char* colour) {
 
     const char* pol = 
@@ -103,6 +68,77 @@ void gen_seg(FILE *f, uint8_t g, uint16_t wh, const char* colour) {
     }
 }
 
+uint16_t gen(uint8_t *last, uint16_t wh, uint16_t *y) {
+
+    uint8_t quarter;
+    do {
+        quarter = rand() % 4;
+    } while (quarter == *last);
+
+    *last = quarter;
+    uint16_t wh_q = (wh / 2);
+
+    switch (quarter) {
+        case 0:
+            *y = rand() % wh_q;
+            return rand() % wh_q;
+        break;
+        case 1:
+            *y = wh_q + rand() % wh_q;
+            return rand() % wh_q;
+        break;
+        case 2:
+            *y = rand() % wh_q;
+            return wh_q + rand() % wh_q;
+        break;
+        case 3:
+            *y = wh_q + rand() % wh_q;
+            return wh_q + rand() % wh_q;
+        break;
+        default:
+            *y = 0;
+            return 0;
+        break;
+    }
+}
+
+void write_tre(FILE *f, tre triangle) {
+    fseek(f, -8, SEEK_END);
+
+    const char *pol = 
+    "\n    <polygon\n\
+        points=\"%i,%i %i,%i %i,%i\"\n\
+        fill=\"none\"\n\
+        stroke=\"white\"\n\
+        stroke-width=\"3\"\n\
+    />\n\n\
+</svg>";
+
+    fprintf(f, pol,
+        triangle.p[0].x, triangle.p[0].y,
+        triangle.p[1].x, triangle.p[1].y,
+        triangle.p[2].x, triangle.p[2].y
+    );
+}
+
+void write_seg(FILE *f, seg segment) {
+    fseek(f, -8, SEEK_END);
+
+    const char *pol = 
+    "\n    <polygon\n\
+        points=\"%i,%i %i,%i\"\n\
+        fill=\"none\"\n\
+        stroke=\"white\"\n\
+        stroke-width=\"3\"\n\
+    />\n\n\
+</svg>";
+
+    fprintf(f, pol,
+        segment.p[0].x, segment.p[0].y,
+        segment.p[1].x, segment.p[1].y
+    );
+}
+
 void read_svg(FILE *f, tre_s *triangles, seg_s *segments) {
     
     fseek(f, 0, SEEK_SET);
@@ -127,7 +163,7 @@ void read_svg(FILE *f, tre_s *triangles, seg_s *segments) {
     }
 }
 
-void Print_Tre(tre triangl) {
+void Print_Tre(tre triangle) {
 
     const char *pol = 
 "\n A: %3i %3i\n\
@@ -135,9 +171,9 @@ void Print_Tre(tre triangl) {
  C: %3i %3i\n";
 
     printf(pol,
-        triangl.p[0].x, triangl.p[0].y,
-        triangl.p[1].x, triangl.p[1].y,
-        triangl.p[2].x, triangl.p[2].y
+        triangle.p[0].x, triangle.p[0].y,
+        triangle.p[1].x, triangle.p[1].y,
+        triangle.p[2].x, triangle.p[2].y
     );
 }
 
@@ -184,7 +220,7 @@ void Prunt_P(point p) {
     printf("\n %i %i\n", p.x, p.y);
 }
 
-void write_p(FILE *f, point p, const char* colour) { // не пишет ):
+void write_p(FILE *f, point p, const char* colour) {
 
     const char* circ = 
  "\n    <circle cx=\"%i\" cy=\"%i\" r=\"3\" fill=\"%s\" />\n\n\

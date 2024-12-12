@@ -89,12 +89,12 @@ void vector_free(mas_Type *vector) {
 
 FILE* open_gen_svg(const char *path, uint16_t *wh, uint8_t t, uint8_t g, const char* colour);
 
-void gen_tre(FILE *f, uint8_t t, uint16_t wh, const char* colour);
-void gen_seg(FILE *f, uint8_t g, uint16_t wh, const char* colour);
-
 void read_svg(FILE *f, tre_s *triangles, seg_s *segments);
 
-void Print_Tre(tre triangl);
+void write_seg(FILE *f, seg segment);
+void write_tre(FILE *f, tre triangle);
+
+void Print_Tre(tre triangle);
 void Print_Seg(seg segment);
 
 void Print_Tre_s(tre_s *triangles);
