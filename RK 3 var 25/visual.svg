@@ -1,27 +1,27 @@
 <svg width="700" height="700" xmlns="http://www.w3.org/2000/svg">
 
     <polygon
-        points="629,675 120,207 428,0"
+        points="38,64 678,515 135,0"
         fill="none"
         stroke="white"
         stroke-width="3"
     />
 
     <polygon
-        points="406,161 277,467 175,456"
+        points="251,490 412,241 477,56"
         fill="none"
         stroke="white"
         stroke-width="3"
     />
 
     <polygon
-        points="446,520 650,0"
+        points="446,234 148,0"
         stroke="white"
         stroke-width="3"
     />
 
     <polygon
-        points="449,538 280,194"
+        points="353,350 310,570"
         stroke="white"
         stroke-width="3"
     />

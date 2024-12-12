@@ -3,54 +3,6 @@
 #include <time.h>
 #include <string.h>
 
-template <typename mas_Type, typename Type>
-mas_Type init() {
-    mas_Type vector;
-    vector.size = 0;
-    vector.capacity = 8;
-
-    vector.mas = (Type*) malloc(sizeof(*vector.mas) * vector.capacity);
-    if (vector.mas == NULL) {
-        vector.capacity = 0;
-    }
-    
-    return vector;
-}
-
-template <typename mas_Type, typename Type>
-int extend(mas_Type *vector, Type shape) {
-    if (vector == NULL && vector->capacity > 0) {
-        return -1;
-    }
-
-    if (vector->size >= vector->capacity) {
-        Type *buf = (Type*) realloc(vector->mas, vector->capacity * 2 * sizeof(Type));
-
-        if (buf == NULL) {
-            return -2;
-        }
-        
-        vector->capacity *= 2;
-        vector->mas = buf;
-    }
-
-    vector->mas[vector->size] = shape;
-    vector->size++;
-    
-    return 0;
-}
-
-template <typename mas_Type>
-void vector_free(mas_Type *vector) {
-    if (vector == NULL) {
-        return;
-    }
-    vector->size = 0;
-    vector->capacity = 0;
-
-    free(vector->mas);
-}
-
 FILE* open_gen_svg(const char* path, uint16_t *wh, uint8_t t, uint8_t g, const char* colour) {
 
     FILE *f = fopen(path, "r+");
