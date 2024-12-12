@@ -4,15 +4,15 @@
 #include <stdint.h>
 #include <stdio.h>
 
-template <typename Type>
-struct vec2 {
-    size_t size;
-    size_t capacity;
-    Type *mas;
-};
+// template <typename Type>
+// struct vec2 {
+//     size_t size;
+//     size_t capacity;
+//     Type *mas;
+// };
 
-template <typename Type>
-using Vec = struct vec2<Type>;
+// template <typename Type>
+// using Vec = struct vec2<Type>;
 
 
 typedef struct {
@@ -26,6 +26,17 @@ typedef struct {
 typedef struct {
     point p[2];
 } seg;
+
+typedef struct {
+    point p;
+    uint16_t r;
+} circ;
+
+typedef struct {
+    size_t size;
+    size_t capacity;
+    circ *mas;
+} circles;
 
 typedef struct {
     size_t size;
@@ -91,8 +102,9 @@ FILE* open_gen_svg(const char *path, uint16_t *wh, uint8_t t, uint8_t g, const c
 
 void read_svg(FILE *f, tre_s *triangles, seg_s *segments);
 
-void write_seg(FILE *f, seg segment);
-void write_tre(FILE *f, tre triangle);
+void write_seg(FILE *f, seg segment, const char* colour);
+void write_tre(FILE *f, tre triangle, const char* colour);
+void write_circ(FILE *f, circ circle, const char* colour);
 
 void Print_Tre(tre triangle);
 void Print_Seg(seg segment);

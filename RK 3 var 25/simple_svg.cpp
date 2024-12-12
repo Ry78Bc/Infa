@@ -3,6 +3,10 @@
 #include <time.h>
 #include <string.h>
 
+uint16_t gen(uint8_t *last, uint16_t wh, uint16_t *y);
+void gen_tre(FILE *f, uint8_t t, uint16_t wh, const char* colour);
+void gen_seg(FILE *f, uint8_t g, uint16_t wh, const char* colour);
+
 FILE* open_gen_svg(const char* path, uint16_t *wh, uint8_t t, uint8_t g, const char* colour) {
 
     FILE *f = fopen(path, "r+");
@@ -102,14 +106,14 @@ uint16_t gen(uint8_t *last, uint16_t wh, uint16_t *y) {
     }
 }
 
-void write_tre(FILE *f, tre triangle) {
+void write_tre(FILE *f, tre triangle, const char* colour) {
     fseek(f, -8, SEEK_END);
 
     const char *pol = 
     "\n    <polygon\n\
         points=\"%i,%i %i,%i %i,%i\"\n\
         fill=\"none\"\n\
-        stroke=\"white\"\n\
+        stroke=\"%s\"\n\
         stroke-width=\"3\"\n\
     />\n\n\
 </svg>";
@@ -117,30 +121,51 @@ void write_tre(FILE *f, tre triangle) {
     fprintf(f, pol,
         triangle.p[0].x, triangle.p[0].y,
         triangle.p[1].x, triangle.p[1].y,
-        triangle.p[2].x, triangle.p[2].y
+        triangle.p[2].x, triangle.p[2].y,
+        colour
     );
 }
 
-void write_seg(FILE *f, seg segment) {
+void write_seg(FILE *f, seg segment, const char* colour) {
     fseek(f, -8, SEEK_END);
 
     const char *pol = 
     "\n    <polygon\n\
         points=\"%i,%i %i,%i\"\n\
         fill=\"none\"\n\
-        stroke=\"white\"\n\
+        stroke=\"%s\"\n\
         stroke-width=\"3\"\n\
     />\n\n\
 </svg>";
 
     fprintf(f, pol,
         segment.p[0].x, segment.p[0].y,
-        segment.p[1].x, segment.p[1].y
+        segment.p[1].x, segment.p[1].y,
+        colour
+    );
+}
+
+void write_circ(FILE *f, circ circle, const char* colour) {
+    fseek(f, -8, SEEK_END);
+
+    const char *cir = 
+    "\n    <circle\n\
+        cx=\"%i\" cy=\"%i\"\n\
+        r=\"%i\"\n\
+        fill=\"none\"\n\
+        stroke=\"%s\"\n\
+        stroke-width=\"3\"\n\
+    />\n\n\
+</svg>";
+
+    fprintf(f, cir,
+        circle.p.x, circle.p.y,
+        circle.r, colour
     );
 }
 
 void read_svg(FILE *f, tre_s *triangles, seg_s *segments) {
-    
+
     fseek(f, 0, SEEK_SET);
 
     char s[50];
@@ -207,12 +232,6 @@ void Get_P(point *p) {
 
     printf("\n Point: ");
     scanf("%i %i", &(p->x), &(p->y));
-
-    // uint16_t buf[2];
-    // scanf("%i %i", &buf[0], &buf[1]);
-    // p->x = buf[0];
-    // p->y = buf[1];
-
 }
 
 void Prunt_P(point p) {

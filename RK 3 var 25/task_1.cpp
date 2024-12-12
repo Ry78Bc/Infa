@@ -68,7 +68,7 @@ uint16_t wh = 700;
 int main() {
     system("chcp 65001"); // utf-8
 
-    FILE *f = open_gen_svg("./visual.svg", &wh, 2, 2, "white");
+    FILE *f = open_gen_svg("./visual.svg", &wh, 0, 0, "white");
 
     read_svg(f, &triangles, &segments);
 
@@ -76,9 +76,15 @@ int main() {
     Print_Seg_s(&segments);
 
     point p1;
-    Get_P(&p1);
+    // Get_P(&p1);
     // Prunt_P(p1);
-    write_p(f, p1, "white");
+    // write_p(f, p1, "white");
+
+    #define abrakadabra
+    write_seg(f, seg {50,50,500,500}, "white");
+    write_tre(f, tre {100,200,400,200,100,500}, "white");
+    write_circ(f, circ {300,300,100}, "white");
+
 
     float S_max = 0;
     tre *t1;
