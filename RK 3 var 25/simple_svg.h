@@ -102,18 +102,18 @@ FILE* open_gen_svg(const char *path, uint16_t *wh, uint8_t t, uint8_t g, const c
 
 void read_svg(FILE *f, tre_s *triangles, seg_s *segments);
 
-void write_seg(FILE *f, seg segment, const char* colour);
 void write_tre(FILE *f, tre triangle, const char* colour);
+void write_seg(FILE *f, seg segment, const char* colour);
 void write_circ(FILE *f, circ circle, const char* colour);
+void write_p(FILE *f, point p, const char* colour);
 
 void Print_Tre(tre triangle);
 void Print_Seg(seg segment);
+void Prunt_P(point p);
 
 void Print_Tre_s(tre_s *triangles);
 void Print_Seg_s(seg_s *triangles);
 
 void Get_P(point *p);
-void Prunt_P(point p);
-void write_p(FILE *f, point p, const char* colour);
 
 #endif
