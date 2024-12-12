@@ -121,7 +121,7 @@ void SortStud(stud *students, size_t num_students) {
 }
 
 int main() {
-    // system("chcp 65001"); // utf-8
+    system("chcp 65001"); // utf-8
 
     FILE *f = fopen("Base.dat", "rb+");
     if (f == NULL) {printf("\n No file\n"); return 1;}

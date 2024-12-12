@@ -1,0 +1,2 @@
+     <rect x="3" y="3" width="%d" height="%d" 
+          fill="none" stroke="black" stroke-width="0.7px" stroke-opacity="1.0"/>

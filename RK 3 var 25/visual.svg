@@ -1,0 +1,31 @@
+<svg width="700" height="700" xmlns="http://www.w3.org/2000/svg">
+
+    <polygon
+        points="629,675 120,207 428,0"
+        fill="none"
+        stroke="white"
+        stroke-width="3"
+    />
+
+    <polygon
+        points="406,161 277,467 175,456"
+        fill="none"
+        stroke="white"
+        stroke-width="3"
+    />
+
+    <polygon
+        points="446,520 650,0"
+        stroke="white"
+        stroke-width="3"
+    />
+
+    <polygon
+        points="449,538 280,194"
+        stroke="white"
+        stroke-width="3"
+    />
+
+    <circle cx="350" cy="350" r="3" fill="white" />
+
+    </svg>
